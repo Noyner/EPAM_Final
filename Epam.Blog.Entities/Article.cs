@@ -23,7 +23,6 @@ namespace Epam.Blog.Entities
             Text = text;
             CreationDate = DateTime.Now;
         }
-
         public Article(string title, string text)
         {
             ID = -1;
