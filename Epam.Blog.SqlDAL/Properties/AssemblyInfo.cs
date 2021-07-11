@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Epam.Blog.ConsolePL")]
+[assembly: AssemblyTitle("Epam.Blog.SqlDAL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Epam.Blog.ConsolePL")]
+[assembly: AssemblyProduct("Epam.Blog.SqlDAL")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("07fa3a9c-d3a6-4f56-8fc7-78120dde4532")]
+[assembly: Guid("1b7faf61-ffc8-4321-8eca-d5a03e8286c2")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

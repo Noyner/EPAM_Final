@@ -8,5 +8,6 @@ namespace Epam.Blog.DAL
 {
     class SqlDAL
     {
+
     }
 }

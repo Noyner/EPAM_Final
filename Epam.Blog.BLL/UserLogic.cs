@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epam.Blog.ConsolePL
+namespace Epam.Blog.BLL
 {
-    class Class1
+    class UserLogic
     {
+
     }
 }
