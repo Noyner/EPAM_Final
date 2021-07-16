@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Epam.Blog.Entities;
 
 namespace Epam.Blog.DAL.Interfaces
 {
     public interface IUserDAO
     {
+        User AddUser(User user);
+
+        void RemoveUser(int id);
+
+        User GetUserById(int id);
+
+        void EditUser(int id, string newName, DateTime newDateOfBirth);
     }
 }

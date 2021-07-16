@@ -8,13 +8,19 @@ namespace Epam.Blog.DAL.Interfaces
     {
         Article AddArticle(string text, string title, DateTime creationDate);
 
-        IEnumerable<Article> GetArticles(bool orderedById = true);
+        IEnumerable<Article> GetArticles(bool orderedByCreationDate = true);
 
         Article GetArticle(int id);
 
         void RemoveArticle(int id);
 
         void EditArticle(int id, string newText, string newTitle);
+
+        int TotalArticles();
+
+        void FillTagMap(int articleId, int tagId);
+
+        int GetArticleIdByName(string name);
 
     }
 }

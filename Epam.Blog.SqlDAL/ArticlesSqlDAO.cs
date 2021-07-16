@@ -1,25 +1,27 @@
 ﻿using Epam.Blog.Entities;
 using Epam.Blog.DAL.Interfaces;
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Epam.Blog.SqlDAL
 {
-    class ArticlesSqlDAO : IArticleDAO
+    public class ArticlesSqlDAO : IArticleDAO
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+        private static List<Article> posts = new List<Article>();
 
-        private static SqlConnection _connection = new SqlConnection(_connectionString);
+        public static string _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
 
-        public IEnumerable<Article> GetArticles(bool orderedById = true)
+        //public static SqlConnection _connection = new SqlConnection(_connectionString);
+
+        public IEnumerable<Article> GetArticles(bool orderedByCreationDate = true)
         {
-            using (_connection)
+            using (var _connection = new SqlConnection(_connectionString))
             {
                 var query = "SELECT ID, Title, Text, CreationDate FROM Articles"
-                    + (orderedById ? " ORDER BY Id" : "");
+                    + (orderedByCreationDate ? " ORDER BY CreationDate" : "");
 
                 var command = new SqlCommand(query, _connection);
 
@@ -38,11 +40,67 @@ namespace Epam.Blog.SqlDAL
             }
         }
 
-        public Article AddArticle(string text, string title, DateTime creationDate)
+        public Article GetArticle(int id)
         {
-            using (_connection)
+            using (var _connection = new SqlConnection(_connectionString))
             {
-                var query = "INSERT INTO dbo.Articles(Title, Text, CreationDate) " +
+                var query = "SELECT Id, Title, Text, CreationDate FROM Articles" + $"WHERE Id='{id}'"; ;
+
+                var command = new SqlCommand(query, _connection);
+
+                _connection.Open();
+
+                var reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return new Article(
+                        id: (int)reader["Id"],
+                        title: reader["Title"] as string,
+                        text: reader["Text"] as string,
+                        creationDate: (DateTime)reader["CreationDate"]);
+                }
+                _connection.Close();
+
+                throw new InvalidOperationException("Cannot find Article with ID = " + id);
+            }
+        }
+
+        public void FillTagMap(int articleId, int tagId)
+        {
+            using (var _connection = new SqlConnection(_connectionString))
+            {
+                var query = "INSERT INTO dbo.ArticleTagMap(ArticleId, TagId) " +
+                    "VALUES(@ArticleId,@TagId)";
+
+                var command = new SqlCommand(query, _connection);
+
+                command.Parameters.AddWithValue("@ArticleId", articleId);
+                command.Parameters.AddWithValue("@TagId", tagId);
+
+                _connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public int TotalArticles() // Проверить
+        {
+            using (var _connection = new SqlConnection(_connectionString))
+            {
+                var query = "SELECT COUNT(*) FROM Articles";
+                var command = new SqlCommand(query, _connection);
+                _connection.Open();
+
+                int totalArticles = (int)command.ExecuteScalar();
+                return totalArticles;
+            }
+        }
+
+        public Article AddArticle(string title, string text, DateTime creationDate)
+        {
+            using (var _connection = new SqlConnection(_connectionString))
+            {
+                var query = "INSERT INTO dbo.Articles(Title, Text, CreationDate)" +
                     "VALUES(@Title, @Text, @CreationDate); SELECT CAST(scope_identity() AS INT) AS NewID";
                 var command = new SqlCommand(query, _connection);
 
@@ -67,9 +125,9 @@ namespace Epam.Blog.SqlDAL
             }
         }
 
-        public Article GetArticle(int id)
+        public Article GetArticleById(int id)
         {
-            using (_connection)
+            using (var _connection = new SqlConnection(_connectionString))
             {
                 var stProc = "Articles_GetById";
 
@@ -97,9 +155,26 @@ namespace Epam.Blog.SqlDAL
             }
         }
 
+        public int GetArticleIdByName(string name)
+        {
+            using (var _connection = new SqlConnection(_connectionString))
+            {
+                var query = "SELECT Id FROM Articles" + $"WHERE Name='{name}'";
+
+                var command = new SqlCommand(query, _connection);
+
+                _connection.Open();
+
+                int articleId = (int)command.ExecuteScalar();
+                return articleId;
+
+                throw new InvalidOperationException("Cannot find Article with Name = " + name);
+            }
+        }
+
         public void RemoveArticle(int id)
         {
-            string sql = $"Delete From Articles Where Id='{id}'";
+            string sql = $"Delete From dbo.Articles Where Id='{id}'";
             using (var _connection = new SqlConnection(_connectionString))
             {
                 var command = new SqlCommand(sql, _connection);

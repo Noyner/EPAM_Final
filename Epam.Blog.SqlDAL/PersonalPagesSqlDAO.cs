@@ -8,5 +8,6 @@ namespace Epam.Blog.SqlDAL
 {
     class PersonalPagesSqlDAO
     {
+
     }
 }

@@ -14,6 +14,7 @@ namespace Epam.Blog.Entities
             Title = title;
             Text = text;
             CreationDate = creationDate;
+            Tags = new List<Tag>();
         }
 
         public Article(string title, string text, int id)
@@ -22,6 +23,16 @@ namespace Epam.Blog.Entities
             Title = title;
             Text = text;
             CreationDate = DateTime.Now;
+            Tags = new List<Tag>();
+        }
+
+        public Article(string title, string text, DateTime creationDate)
+        {
+            ID = -1;
+            Title = title;
+            Text = text;
+            CreationDate = creationDate;
+            Tags = new List<Tag>();
         }
         public Article(string title, string text)
         {
@@ -29,15 +40,19 @@ namespace Epam.Blog.Entities
             Title = title;
             Text = text;
             CreationDate = DateTime.Now;
+            Tags = new List<Tag>();
         }
 
         public int ID { get; }
 
         public string Title { get; set; }
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
-        public DateTime CreationDate { get; private set; }
+        public virtual IList<Tag> Tags
+        { get; set; }
+
+        public DateTime CreationDate { get; set; }
 
         public void Edit(string newText, string newTitle)
         {
@@ -47,6 +62,5 @@ namespace Epam.Blog.Entities
             Text = newText;
             Title = newTitle;
         }
-
     }
 }

@@ -8,9 +8,9 @@ namespace Epam.Blog.Entities
 {
     public class User
     {
-        public User(string name, DateTime dateOfBirth)
+        public User(int id, string name, DateTime dateOfBirth)
         {
-            ID = ID;
+            ID = id;
             Name = name;
             DateOfBirth = dateOfBirth;
         }

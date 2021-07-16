@@ -1,17 +1,172 @@
-﻿@{
-    Layout = "~/ Pages / Layout / _BasicLayout.cshtml";
+﻿@using Epam.Blog.Entities;
+@using System;
+@using Epam.Blog.WebPL.Models;
+@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+    string pageName = "Personal blog";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>EPAM | Blog</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        .col-2 {
+            margin-right: 30px;
+            float: right;
+        }
+    </style>
+    <title>@pageName</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div>
-
+    <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>EPAM Blog</h1>
+                        <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                @{
+                    var bll = DependencyResolver.GetInstance().ArticleLogic;
+                    var bll2 = DependencyResolver.GetInstance().TagLogic;
+                    <ul>
+                        @foreach (var article in bll.GetArticles(true))
+                        {
+                            <li>
+                                <h2 class="post-title">
+                                    @article.Title
+                                </h2>
+                                <p class="post-subtitle">
+                                    @article.Text
+                                </p>
+                                @article.CreationDate
+                            </li>
+                        }
+                    </ul>
+                }
+                <!-- Post preview-->
+                <div class="post-preview">
+                    <a href="post.html">
+                        <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
+                        <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by
+                        <a href="#!">Start Bootstrap</a>
+                        on September 24, 2021
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- Footer-->
+    <footer class="border-top">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center">
+                        <li class="list-inline-item">
+                            <a href="#!">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; Gaplievskiy Mark 2021</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("users"))
+        {
+            //<button id="getUserByIdBtn" type="button" class="btn btn-warning">Get user by ID</button>
+            <button id="getArticleByIdBtn" type="button" class="btn btn-warning">Get article by ID</button>
+        }
+
+        if (User.IsInRole("admin"))
+        {
+            <button id="addUserBtn" type="button" class="btn btn-primary">Add user</button>
+            <button id="addArticleBtn" type="button" class="btn btn-primary">New article</button>
+            <button id="editArticleBtn" type="button" class="btn btn-info">Edit article</button>
+            <button id="delArticleBtn" type="button" class="btn btn-danger">Delete article</button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Admin panel</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <br />
+            <div class="alert alert-warning" role="alert">
+                Some features isn't available for users (only for admins, sorry)!
+            </div>
+        }
+        <button id="signOut" type="button" class="btn btn-warning">SignOut</button>
+    }
+    else
+    {
+        <button id="loginBtn" type="button" class="btn btn-warning">Login</button>
+    }
+    <script>
+        $('#allUsersBtn').click(function () {
+            location.href = '/Pages/AllUser';
+        })
+        $('#addArticleBtn').click(function () {
+            location.href = '/Pages/AddArticle';
+        })
+        $('#editArticleBtn').click(function () {
+            location.href = '/Pages/EditArticle';
+        })
+        $('#delArticleBtn').click(function () {
+            location.href = '/Pages/DeleteArticle';
+        })
+        $('#delUserBtn').click(function () {
+            location.href = '/Pages/DeleteUser';
+        })
+        $('#loginBtn').click(function () {
+            location.href = '/Pages/SignIn';
+        })
+        $('#signOut').click(function () {
+            location.href = '/Pages/SignOut';
+        })
+
+    </script>
 </body>
 </html>
+
