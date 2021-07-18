@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("users"))
+    {
+        //<button id="getUserByIdBtn" type="button" class="btn btn-warning">Get user by ID</button>
+        <button id="getArticleByIdBtn" type="button" class="btn btn-warning">Get article by ID</button>
+    }
+
+    if (User.IsInRole("admins"))
+    {
+        <button id="addUserBtn" type="button" class="btn btn-primary">Add user</button>
+        <button id="addArticleBtn" type="button" class="btn btn-primary">New article</button>
+        <button id="editArticleBtn" type="button" class="btn btn-info">Edit article</button>
+        <button id="delArticleBtn" type="button" class="btn btn-danger">Delete article</button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Admin panel</a></li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <br />
+        <div class="alert alert-warning" role="alert">
+            Some features isn't available for users (only for admins, sorry)!
+        </div>
+    }
+    <button id="signOut" type="button" class="btn btn-warning">SignOut</button>
+}
+else
+{
+    <button id="loginBtn" type="button" class="btn btn-warning">Login</button>
+}
+<script>
+    $('#allUsersBtn').click(function () {
+        location.href = '/Pages/AllUser';
+    })
+    $('#addArticleBtn').click(function () {
+        location.href = '/Pages/AddArticle';
+    })
+    $('#editArticleBtn').click(function () {
+        location.href = '/Pages/EditArticle';
+    })
+    $('#delArticleBtn').click(function () {
+        location.href = '/Pages/DeleteArticle';
+    })
+    $('#delUserBtn').click(function () {
+        location.href = '/Pages/DeleteUser';
+    })
+    $('#loginBtn').click(function () {
+        location.href = '/Pages/SignIn';
+    })
+    $('#signOut').click(function () {
+        location.href = '/Pages/SignOut';
+    })
+
+</script>

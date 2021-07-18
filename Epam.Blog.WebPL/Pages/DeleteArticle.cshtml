@@ -1,0 +1,50 @@
+﻿@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().ArticleLogic;
+
+    int articleId = 1;
+
+    if (IsPost)
+    {
+        articleId = int.Parse(Request["articleId"]);
+        bll.RemoveArticle(articleId);
+        Response.Redirect("/index.cshtml");
+    }
+}
+
+<form method="POST">
+    <br />
+    <small id="description" class="form-text text-muted">Введите ID статьи для её удаления</small>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Article ID</label>
+        <input name="articleId" type="text" class="form-control" placeholder="Enter article ID" value="@articleId">
+    </div>
+    <button name="test" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Delete article
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you wanna delete this article?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete article</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    myModal.addEventListener('shown.bs.modal', function () {
+        test.focus()
+    })
+</script>

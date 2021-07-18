@@ -1,0 +1,41 @@
+﻿@using Epam.Blog.Entities;
+@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().ArticleLogic;
+    var bll2 = DependencyResolver.GetInstance().TagLogic;
+
+    string title = null;
+    string text = null;
+    string tags = null;
+
+    DateTime dateTime = DateTime.Now;
+
+    if (IsPost)
+    {
+        title = Request["title"];
+        text = Request["text"];
+        tags = Request["tags"];
+        dateTime = DateTime.Now;
+        List<string> tagTuple = tags.Split(',').ToList<string>();
+        bll.AddFullArticleWithTags(title, text, dateTime, tagTuple);
+
+        Response.Redirect("~/index.cshtml");
+    }
+}
+
+<h2>Create new blog post</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" style="" class="form-control" placeholder="The headline goes here..." value="@title" /><br />
+        <label>Tags</label>
+        <input type="text" name="tags" style="" class="form-control" placeholder="Separate each tag using a comma ','." value="@tags" /><br />
+        <label>Text</label>
+        <textarea name="text" class="form-control" style="height: 300px;" placeholder="What would you like to write?" value="@text"></textarea><br />
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>  

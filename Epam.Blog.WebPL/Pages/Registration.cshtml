@@ -1,17 +1,59 @@
-﻿@{
-    Layout = "~/ Pages / Layout / _BasicLayout.cshtml";
+﻿@using Epam.Blog.Entities;
+@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().UserLogic;
+
+    string login = null;
+    string password = null;
+
+    if (IsPost)
+    {
+        login = Request["login"];
+        password = Request["password"];
+        bll.AddUser(new User(login, password));
+        Response.Redirect("~/index.cshtml");
+    }
 }
 
-<!DOCTYPE html>
+<form class="form-horizontal" align="center" action='' method="POST">
+    <fieldset>
+        <div id="legend">
+            <label class="">Register</label>
+        </div>
+        <div class="control-group" align="center">
+            <!-- Username -->
+            <label class="control-label" for="login">Login</label>
+            <div class="controls">
+                <input type="text" id="login" name="login" placeholder="" value="@login" class="input-xlarge">
+                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" id="password" name="password" placeholder="" value="@password" class="input-xlarge">
+                <p class="help-block">Password should be at least 4 characters</p>
+            </div>
+        </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+        <div class="control-group">
+            <!-- Password -->
+            <label class="control-label" for="password_confirm">Password (Confirm)</label>
+            <div class="controls">
+                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+                <p class="help-block">Please confirm password</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+                <button id="addUserBtn" class="btn btn-success">Register</button>
+            </div>
+        </div>
+    </fieldset>
+</form>

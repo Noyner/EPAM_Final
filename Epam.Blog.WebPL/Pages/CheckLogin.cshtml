@@ -1,0 +1,23 @@
+﻿@using Epam.Blog.WebPL.Models;
+@using Epam.Blog.BLL.Interfaces;
+@using Epam.Blog.Dependencies;
+@using Epam.Blog.Entities;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().UserLogic;
+
+    if (IsPost)
+    {
+        var check = bll.SignIn(Request["login"], Request["pass"]);
+
+        if (check)
+        {
+            FormsAuthentication.SetAuthCookie(Request["login"], createPersistentCookie: true);
+            Response.Redirect("~/index.cshtml");
+        }
+    }
+}
+
+
