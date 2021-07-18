@@ -21,5 +21,7 @@ namespace Epam.Blog.BLL.Interfaces
         void FillTagMap(int articleId, int tagId);
 
         int GetArticleIdByName(string name);
+
+        void AddFullArticleWithTags(string title, string text, DateTime creationDate, List<string> tags);
     }
 }

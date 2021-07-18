@@ -11,6 +11,10 @@ namespace Epam.Blog.DAL.Interfaces
 
         User GetUserById(int id);
 
-        void EditUser(int id, string newName, DateTime newDateOfBirth);
+        User GetUserByName(string login);
+
+        void EditUser(int id, string newLogin);
+
+        bool SignIn(string login, string password);
     }
 }

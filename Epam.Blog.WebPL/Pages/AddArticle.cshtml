@@ -10,7 +10,6 @@
     string title = null;
     string text = null;
     string tags = null;
-    
 
     DateTime dateTime = DateTime.Now;
 
@@ -20,16 +19,8 @@
         text = Request["text"];
         tags = Request["tags"];
         dateTime = DateTime.Now;
-        bll.AddArticle(title, text, dateTime);
-      
-
-        string[] tagTuple = tags.Split(',');
-        foreach (var tag in tagTuple)
-        {
-            bll2.AddTag(tag);
-        }
-
-        //bll.FillTagMap(articleId, tagId);
+        List<string> tagTuple = tags.Split(',').ToList<string>();
+        bll.AddFullArticleWithTags(title, text, dateTime, tagTuple);
 
         Response.Redirect("~/index.cshtml");
     }

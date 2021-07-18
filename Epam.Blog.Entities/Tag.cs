@@ -26,5 +26,10 @@ namespace Epam.Blog.Entities
 
         public IList<Article> Articles
         { get; set; }
+
+        public override string ToString()
+        {
+            return " #" + Name;
+        }
     }
 }

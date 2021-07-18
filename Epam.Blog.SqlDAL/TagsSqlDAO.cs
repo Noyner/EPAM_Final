@@ -63,14 +63,23 @@ namespace Epam.Blog.SqlDAL
         {
             using (var _connection = new SqlConnection(_connectionString))
             {
-                var query = "SELECT Id FROM Tags" + $"WHERE Name='{name}'";
+                var query = "SELECT Id FROM Tags " + $"WHERE Name='{name}'";
 
-                var command = new SqlCommand(query, _connection);
+                var command = new SqlCommand(query, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Name", name);
 
                 _connection.Open();
 
-                int tagId = (int)command.ExecuteScalar();
-                return tagId;
+                var reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return (int)reader["Id"];
+                }
 
                 throw new InvalidOperationException("Cannot find Tag with Name = " + name);
             }

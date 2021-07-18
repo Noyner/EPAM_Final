@@ -33,5 +33,7 @@ namespace Epam.Blog.BLL
         public void FillTagMap(int articleId, int tagId) => _articlesDAO.FillTagMap(articleId, tagId);
 
         public int GetArticleIdByName(string name) => _articlesDAO.GetArticleIdByName(name);
+
+        public void AddFullArticleWithTags(string title, string text, DateTime creationDate, List<string> tags) => _articlesDAO.AddFullArticleWithTags(title, text, creationDate, tags);
     }
 }

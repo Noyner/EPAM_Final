@@ -2,6 +2,7 @@
 @using System;
 @using Epam.Blog.WebPL.Models;
 @using Epam.Blog.Dependencies;
+@using System.Linq;
 
 @{
     Layout = "~/Pages/Layout/_BasicLayout.cshtml";
@@ -53,18 +54,35 @@
                 @{
                     var bll = DependencyResolver.GetInstance().ArticleLogic;
                     var bll2 = DependencyResolver.GetInstance().TagLogic;
+                    
+
                     <ul>
+
                         @foreach (var article in bll.GetArticles(true))
                         {
-                            <li>
-                                <h2 class="post-title">
-                                    @article.Title
-                                </h2>
-                                <p class="post-subtitle">
-                                    @article.Text
-                                </p>
-                                @article.CreationDate
-                            </li>
+                        <li>
+                            <h2 class="post-title">
+                                @article.Title
+                            </h2>
+                            <p class="post-subtitle">
+                                @article.Text
+                            </p>
+                            @article.CreationDate
+
+                            @if (article.Tags.Count > 0)
+
+                            {
+                                string combindedString = string.Join(" ", article.Tags);
+                                <div>
+                                    Tags:
+                                    @combindedString;
+                                </div>
+                            }
+                            else
+                            {
+                                <span>No one tag</span>
+                            }
+                        </li>
                         }
                     </ul>
                 }

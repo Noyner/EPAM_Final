@@ -14,6 +14,10 @@ namespace Epam.Blog.BLL.Interfaces
 
         User GetUserById(int id);
 
-        void EditUser(int id, string newName, DateTime newDateOfBirth);
+        User GetUserByName(string login);
+
+        void EditUser(int id, string newName);
+
+        bool SignIn(string login, string password);
     }
 }

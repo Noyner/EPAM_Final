@@ -26,14 +26,24 @@ namespace Epam.Blog.BLL
         }
 
 
-        public void EditUser(int id, string newName, DateTime newDateOfBirth)
+        public void EditUser(int id, string newName)
         {
-            _userDAO.EditUser(id, newName, newDateOfBirth);
+            _userDAO.EditUser(id, newName);
         }
 
         public User GetUserById(int id)
         {
             return _userDAO.GetUserById(id);
+        }
+
+        public User GetUserByName(string login)
+        {
+            return _userDAO.GetUserByName(login);
+        }
+
+        public bool SignIn(string login, string password)
+        {
+            return _userDAO.SignIn(login, password);
         }
     }
 }

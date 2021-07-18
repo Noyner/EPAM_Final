@@ -11,7 +11,7 @@
     {
         articleId = int.Parse(Request["articleId"]);
         bll.RemoveArticle(articleId);
-        Response.Redirect("PL/index.cshtml");
+        Response.Redirect("/index.cshtml");
     }
 }
 

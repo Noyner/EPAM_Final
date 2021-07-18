@@ -22,5 +22,7 @@ namespace Epam.Blog.DAL.Interfaces
 
         int GetArticleIdByName(string name);
 
+        void AddFullArticleWithTags(string title, string text, DateTime creationDate, List<string> tags);
+
     }
 }
