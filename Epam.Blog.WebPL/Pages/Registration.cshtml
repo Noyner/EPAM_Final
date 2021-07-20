@@ -1,17 +1,81 @@
-﻿@{
-    Layout = "~/ Pages / Layout / _BasicLayout.cshtml";
-}
+﻿@using Epam.Blog.Entities;
+@using Epam.Blog.Dependencies;
 
-<!DOCTYPE html>
+@{ Layout = "~/Pages/Layout/_BasicLayout.cshtml";
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+    var bll = DependencyResolver.GetInstance().UserLogic;
+
+    string login = null;
+    string password = null;
+
+    if (IsPost)
+    {
+        login = Request["login"];
+        password = Request["password"];
+        bll.AddUser(new User(login, password));
+        Response.Redirect("~/index.cshtml");
+    } }
+
+
+<form name="RegForm" class="form-horizontal" align="center" action='' method="POST" onsubmit = "return validateForm()">
+    <fieldset>
+        <div id="legend">
+            <label class="">Registration page</label>
+        </div>
+        <div class="control-group" align="center">
+            <!-- Username -->
+            <label class="control-label" for="login">Login</label>
+            <div class="controls">
+                <input type="text" id="login" name="login" placeholder="" value="@login" class="input-xlarge">
+                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" id="password" name="password" placeholder="" value="@password" class="input-xlarge">
+                <p class="help-block">Password should be at least 4 characters</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <!-- Password -->
+            <label class="control-label" for="password_confirm">Password (Confirm)</label>
+            <div class="controls">
+                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+                <p class="help-block">Please confirm password</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+                <button id="addUserBtn" class="btn btn-success">Register</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    function validateForm() {
+        var u = document.getElementById("login").value;
+        var p = document.getElementById("password").value;
+        var g = document.getElementById("password_confirm").value;
+
+        if (u == "") {
+            alert("Please enter your Login");
+            return false;
+        }
+        if (p == "") {
+            alert("Please enter you Password");
+            return false;
+        }
+        if (g == "") {
+            alert("Please confirm you Password");
+            return false;
+        } 
+         if (password.length < 4 {
+                alert('В пароле должно быть от 4 символов'); return false;
+            }
+        return true;
+    }
+</script>
+
