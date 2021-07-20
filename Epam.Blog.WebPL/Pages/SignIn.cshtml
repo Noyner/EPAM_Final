@@ -1,17 +1,76 @@
-﻿@{
-    Layout = "~/ Pages / Layout / _BasicLayout.cshtml";
+﻿@using Epam.Blog.WebPL.Models;
+@using Epam.Blog.BLL.Interfaces;
+@using Epam.Blog.Dependencies;
+@using Epam.Blog.Entities;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().UserLogic;
+
+    if (IsPost)
+    {
+        var check = bll.SignIn(Request["login"], Request["pass"]);
+
+        if (check)
+        {
+            FormsAuthentication.SetAuthCookie(Request["login"], createPersistentCookie: true);
+            Response.Redirect("~/index.cshtml");
+        }
+    }
+    else
+    {
+        FormsAuthentication.SignOut();
+    }
 }
+<h2 align="center"> Авторизуйтесь</h2>
+<br />
+<style>
+    .center {
+        margin: 0 auto;
+        margin-top: 15px;
+    }
 
-<!DOCTYPE html>
+    .form-control {
+        width: 300px;
+        text-align: center;
+    }
+</style>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+<form method="post">
+    <div class="form-group" align="center">
+        <asp:Panel ID="MainPanel" runat="server" Width="440px" CssClass="center">
+            <label for="exampleInputEmail1">Login</label>
+            <input name="login" type="text" class="form-control" id="login" placeholder="Enter login">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input name="pass" type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a href="~/Pages/Registration.cshtml" class="btn btn-primary">Registration</a>
+        </asp:Panel>
     </div>
-</body>
-</html>
+</form>
+<script src="js/scripts.js"></script>
+<script type="text/javascript">
+    function validateForm() {
+        var u = document.getElementById("login").value;
+        var p = document.getElementById("pass").value;
+
+        if (u == "") {
+            alert("Please enter your Login");
+            return false;
+        }
+        if (p == "") {
+            alert("Please enter you Password");
+            return false;
+        }
+        if (pass.length < 4 {
+            alert('В пароле должно быть от 4 символов'); return false;
+        }
+        return true;
+    }
+</script>

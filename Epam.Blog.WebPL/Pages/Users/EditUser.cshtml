@@ -1,0 +1,49 @@
+﻿@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().UserLogic;
+
+    int userId = 1;
+    string login = null;
+
+    if (IsPost)
+    {
+        login = Request["login"];
+        userId = Convert.ToInt32(Request["userId"]);
+        bll.EditUser(userId, login);
+        Response.Redirect("~/index.cshtml");
+    }
+}
+
+<style>
+    .form-group {
+        position: relative;
+        left: 38%;
+        width: 500px;
+    }
+
+    #editUserBtn {
+        width: 200px;
+        position: relative;
+        left: 46%;
+    }
+</style>
+
+<form method="POST">
+    <br />
+    <h2 style="text-align:center">Измените данные пользователя</h2>
+    <div class="form-group">
+        <label >User ID</label>
+        <input name="userId" type="text" class="form-control" placeholder="Enter user ID" value="@userId">
+    </div>
+    <div class="form-group">
+        <label>User name</label>
+        <input name="login" type="text" class="form-control" placeholder="Enter new user login" value="@login">
+    </div>
+    <br />
+    <button id="editUserBtn" type="submit" class="btn btn-primary">Edit user data</button>
+</form>
+
+

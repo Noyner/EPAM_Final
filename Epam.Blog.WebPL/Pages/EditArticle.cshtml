@@ -1,0 +1,48 @@
+﻿@using Epam.Blog.Dependencies;
+
+@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+
+    var bll = DependencyResolver.GetInstance().ArticleLogic;
+
+    int articleId = 1;
+    string newTitle = null;
+    string newText = null;
+
+    if (IsPost)
+    {
+        articleId = int.Parse(Request["articleId"]);
+        newTitle = Request["newTitle"];
+        newText = Request["newText"];
+        bll.EditArticle(articleId, newText, newTitle);
+        Response.Redirect("~/index.cshtml");
+    }
+}
+
+<style>
+    .form-group {
+        position: relative;
+        left: 38%;
+        width: 500px;
+    }
+
+    #editArticleBtn {
+        width: 200px;
+        position: relative;
+        left: 46%;
+    }
+</style>
+
+<form method="post">
+    <h2 style="text-align:center">Edit your article</h2><br />
+    <div class="form-group">
+        <label for="exampleInputEmail1">Article ID</label>
+        <input name="articleId" type="text" class="form-control" placeholder="Enter article ID" value="@articleId">
+        <label>Title</label>
+        <input type="text" name="newTitle" style="" class="form-control" placeholder="Enter new title" value="@newTitle" /><br />
+        <label>Text</label>
+        <textarea name="newText" class="form-control" style="height: 300px;" placeholder="What would you like to write?" value="@newText"></textarea><br />
+    </div>
+    <button id="editArticleBtn" type="submit" class="btn btn-outline-success">Confirm edit</button>
+</form>
+

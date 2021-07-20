@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "~/Pages/Layout/_BasicLayout.cshtml";
+}
+
+<style>
+    .buttons{
+        text-align:center;
+    }
+</style>
+<h2 style="text-align:center">Amdinistrator capabilities</h2>
+<hr />
+<br />
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admins"))
+    {
+<div class="buttons">
+    <h3>Articles</h3><br />
+    <button id="addArticleBtn" type="button" class="btn btn-primary">New article</button>
+    <button id="editArticleBtn" type="button" class="btn btn-info">Edit article</button>
+    <button id="delArticleBtn" type="button" class="btn btn-danger">Delete article</button>
+    <br /><br />
+    <h3>Users</h3><br />
+    <button id="addUserBtn" type="button" class="btn btn-primary">Add user</button>
+    <button id="editUserBtn" type="button" class="btn btn-info">Edit user</button>
+    <button id="delUserBtn" type="button" class="btn btn-danger">Delete user</button>
+</div>
+    }
+    else
+    {
+        <br />
+        <div class="alert alert-warning" role="alert">
+            Some features isn't available for users (only for admins, sorry)!
+        </div>
+    }
+}
+else
+{
+    <button id="loginBtn" type="button" class="btn btn-warning">Login</button>
+}
+<script>
+    $('#addUserBtn').click(function () {
+        location.href = '/Pages/Registration';
+    })
+    $('#editUserBtn').click(function () {
+        location.href = '/Pages/Users/EditUser';
+    })
+    $('#delUserBtn').click(function () {
+        location.href = '/Pages/Users/DeleteUser';
+    })
+    $('#addArticleBtn').click(function () {
+        location.href = '/Pages/AddArticle';
+    })
+    $('#editArticleBtn').click(function () {
+        location.href = '/Pages/EditArticle';
+    })
+    $('#delArticleBtn').click(function () {
+        location.href = '/Pages/DeleteArticle';
+    })
+    
+    $('#loginBtn').click(function () {
+        location.href = '/Pages/SignIn';
+    })
+    $('#signOut').click(function () {
+        location.href = '/Pages/SignOut';
+    })
+
+</script>
